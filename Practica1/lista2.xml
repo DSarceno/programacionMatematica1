@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Major Version</key><integer>1</integer>
+	<key>Minor Version</key><integer>1</integer>
+	<key>Date</key><date>2020-08-21T23:36:14Z</date>
+	<key>Application Version</key><string>12.10.8.5</string>
+	<key>Features</key><integer>5</integer>
+	<key>Show Content Ratings</key><true/>
+	<key>Music Folder</key><string>file://localhost/C:/Users/PC/Music/iTunes/iTunes%20Media/</string>
+	<key>Library Persistent ID</key><string>AD0330A5BA3C9B90</string>
+	<key>Tracks</key>
+	<dict>
+		<key>91</key>
+		<dict>
+			<key>Track ID</key><integer>91</integer>
+			<key>Name</key><string>Así Son las Cosas</string>
+			<key>Artist</key><string>Porta</string>
+			<key>Album Artist</key><string>Porta</string>
+			<key>Composer</key><string>Porta</string>
+			<key>Album</key><string>Reset</string>
+			<key>Genre</key><string>Hip-Hop/Rap</string>
+			<key>Kind</key><string>Archivo de audio MPEG</string>
+			<key>Size</key><integer>4997300</integer>
+			<key>Total Time</key><integer>295183</integer>
+			<key>Disc Number</key><integer>3</integer>
+			<key>Track Number</key><integer>15</integer>
+			<key>Year</key><integer>2012</integer>
+			<key>Date Modified</key><date>2015-01-16T23:44:10Z</date>
+			<key>Date Added</key><date>2020-08-21T03:32:48Z</date>
+			<key>Bit Rate</key><integer>128</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>http://todoporta2009.blogspot.com/p/reset.html</string>
+			<key>Release Date</key><date>2012-05-07T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>44648CDCC9FD88F8</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file://localhost/C:/Users/PC/Music/Reset/Reset/15%20As%C3%AD%20Son%20las%20Cosas.mp3</string>
+			<key>File Folder Count</key><integer>-1</integer>
+			<key>Library Folder Count</key><integer>-1</integer>
+		</dict>
+		<key>99</key>
+		<dict>
+			<key>Track ID</key><integer>99</integer>
+			<key>Name</key><string>Reset</string>
+			<key>Artist</key><string>Porta</string>
+			<key>Album Artist</key><string>Porta</string>
+			<key>Composer</key><string>Porta</string>
+			<key>Album</key><string>Reset</string>
+			<key>Genre</key><string>Hip-Hop/Rap</string>
+			<key>Kind</key><string>Archivo de audio MPEG</string>
+			<key>Size</key><integer>4628635</integer>
+			<key>Total Time</key><integer>272143</integer>
+			<key>Disc Number</key><integer>3</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Year</key><integer>2012</integer>
+			<key>Date Modified</key><date>2015-01-16T23:44:14Z</date>
+			<key>Date Added</key><date>2020-08-21T03:32:48Z</date>
+			<key>Bit Rate</key><integer>128</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>http://todoporta2009.blogspot.com/p/reset.html</string>
+			<key>Release Date</key><date>2012-05-07T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Persistent ID</key><string>F6AA10FBA35868E2</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file://localhost/C:/Users/PC/Music/Reset/Reset/02%20Reset.mp3</string>
+			<key>File Folder Count</key><integer>-1</integer>
+			<key>Library Folder Count</key><integer>-1</integer>
+		</dict>
+		<key>107</key>
+		<dict>
+			<key>Track ID</key><integer>107</integer>
+			<key>Name</key><string>El Clásico</string>
+			<key>Artist</key><string>Porta</string>
+			<key>Album Artist</key><string>Porta</string>
+			<key>Composer</key><string>Porta</string>
+			<key>Album</key><string>Algo Ha Cambiado</string>
+			<key>Genre</key><string>Rap</string>
+			<key>Kind</key><string>Archivo de audio MPEG</string>
+			<key>Size</key><integer>9050266</integer>
+			<key>Total Time</key><integer>370285</integer>
+			<key>Disc Number</key><integer>4</integer>
+			<key>Track Number</key><integer>5</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2016-03-20T18:56:26Z</date>
+			<key>Date Added</key><date>2020-08-21T03:33:00Z</date>
+			<key>Bit Rate</key><integer>192</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>http://todoporta2009.blogspot.mx/p/algo-ha-cambiado-2014.html</string>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Name</key><string>Clásico</string>
+			<key>Persistent ID</key><string>D074C3CD3FFBE76C</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file://localhost/C:/Users/PC/Music/Algo%20Ha%20Cambiado/Algo%20ha%20cambiado/05.%20El%20Cl%C3%A1sico%20(Con%20Eude).mp3</string>
+			<key>File Folder Count</key><integer>-1</integer>
+			<key>Library Folder Count</key><integer>-1</integer>
+		</dict>
+		<key>143</key>
+		<dict>
+			<key>Track ID</key><integer>143</integer>
+			<key>Name</key><string>Ohne Dich</string>
+			<key>Artist</key><string>Rammstein</string>
+			<key>Album Artist</key><string>Rammstein</string>
+			<key>Composer</key><string>Christian "Doktor" Lorenz/Christoph "Doom" Schneider/Paul Landers/Rammstein/Richard Kruspe/Till Lindemann</string>
+			<key>Album</key><string>Reise Reise</string>
+			<key>Genre</key><string>Metal</string>
+			<key>Kind</key><string>Archivo de audio MPEG</string>
+			<key>Size</key><integer>7754143</integer>
+			<key>Total Time</key><integer>272274</integer>
+			<key>Track Number</key><integer>10</integer>
+			<key>Year</key><integer>2004</integer>
+			<key>Date Modified</key><date>2013-06-09T22:27:56Z</date>
+			<key>Date Added</key><date>2020-08-21T03:33:38Z</date>
+			<key>Bit Rate</key><integer>227</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>[EMG]</string>
+			<key>Persistent ID</key><string>11CBDEABAC5558F9</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file://localhost/C:/Users/PC/Music/2004/10.%20Rammstein%20-%20Ohne%20Dich.mp3</string>
+			<key>File Folder Count</key><integer>-1</integer>
+			<key>Library Folder Count</key><integer>-1</integer>
+		</dict>
+		<key>153</key>
+		<dict>
+			<key>Track ID</key><integer>153</integer>
+			<key>Name</key><string>Keine Lust</string>
+			<key>Artist</key><string>Rammstein</string>
+			<key>Album Artist</key><string>Rammstein</string>
+			<key>Composer</key><string>Christian "Doktor" Lorenz/Christoph "Doom" Schneider/Paul Landers/Rammstein/Richard Kruspe/Till Lindemann</string>
+			<key>Album</key><string>Reise Reise</string>
+			<key>Genre</key><string>Metal</string>
+			<key>Kind</key><string>Archivo de audio MPEG</string>
+			<key>Size</key><integer>7088654</integer>
+			<key>Total Time</key><integer>222981</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Year</key><integer>2004</integer>
+			<key>Date Modified</key><date>2013-06-09T22:18:04Z</date>
+			<key>Date Added</key><date>2020-08-21T03:33:38Z</date>
+			<key>Bit Rate</key><integer>254</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>[EMG]</string>
+			<key>Persistent ID</key><string>75B4755D11D540FE</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file://localhost/C:/Users/PC/Music/2004/04.%20Rammstein%20-%20Keine%20Lust.mp3</string>
+			<key>File Folder Count</key><integer>-1</integer>
+			<key>Library Folder Count</key><integer>-1</integer>
+		</dict>
+		<key>155</key>
+		<dict>
+			<key>Track ID</key><integer>155</integer>
+			<key>Name</key><string>Los</string>
+			<key>Artist</key><string>Rammstein</string>
+			<key>Album Artist</key><string>Rammstein</string>
+			<key>Composer</key><string>Christian "Doktor" Lorenz/Christoph "Doom" Schneider/Paul Landers/Rammstein/Richard Kruspe/Till Lindemann</string>
+			<key>Album</key><string>Reise Reise</string>
+			<key>Genre</key><string>Metal</string>
+			<key>Kind</key><string>Archivo de audio MPEG</string>
+			<key>Size</key><integer>7518536</integer>
+			<key>Total Time</key><integer>265168</integer>
+			<key>Track Number</key><integer>5</integer>
+			<key>Year</key><integer>2004</integer>
+			<key>Date Modified</key><date>2013-06-09T22:20:10Z</date>
+			<key>Date Added</key><date>2020-08-21T03:33:38Z</date>
+			<key>Bit Rate</key><integer>226</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>[EMG]</string>
+			<key>Persistent ID</key><string>2F5DB6487A36F337</string>
+			<key>Track Type</key><string>File</string>
+			<key>Location</key><string>file://localhost/C:/Users/PC/Music/2004/05.%20Rammstein%20-%20Los.mp3</string>
+			<key>File Folder Count</key><integer>-1</integer>
+			<key>Library Folder Count</key><integer>-1</integer>
+		</dict>
+	</dict>
+	<key>Playlists</key>
+	<array>
+		<dict>
+			<key>Name</key><string>lista2</string>
+			<key>Description</key><string></string>
+			<key>Playlist ID</key><integer>366</integer>
+			<key>Playlist Persistent ID</key><string>545546EFA1281A69</string>
+			<key>All Items</key><true/>
+			<key>Playlist Items</key>
+			<array>
+				<dict>
+					<key>Track ID</key><integer>155</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>107</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>143</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>99</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>91</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>153</integer>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
