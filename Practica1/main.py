@@ -36,14 +36,11 @@ for playlist, i in zip(xmls,range(1,len(xmls) + 1)):
     print(i,'. ' + playlist)
 con = input('S: para confirmar, N para negar y volver a empezar. ')
 if con == 'S':
-    print('SEGUIMOS')
+    import lecturaXML as lxml
+    for arch in xmls:
+        print(lxml.lectura(arch))
 elif con == 'N':
     subprocess.run('cls',shell=True)
     subprocess.run('python menu.py',shell=True)
 else:
     print('Caracter no valido')
-
-import lecturaXML as lxml
-
-for arch in xmls:
-    print(lxml.lectura(arch))
