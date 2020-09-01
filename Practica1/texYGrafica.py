@@ -7,6 +7,11 @@
 listas con los datos y genera un documento de latex'''
 
 def graph(datos):
+    '''esta funcion recibe una lista de listas de la forma:
+    [[cancion,artista,tiempo,[listas]],[cancion,artista,tiempo,[listas]]]
+    y devuelve el histograma en pdf, esta funcion es necesario qeu vaya
+    antes de la funcion pdf, para que el histograma se pueda agregar al
+    archivo'''
     import numpy as np
     import matplotlib.pyplot as plt
     tiempos = []
@@ -25,6 +30,9 @@ def graph(datos):
 
 
 def pdf(datos):
+    '''esta funcion recibe una lista de listas de la forma:
+    [[cancion,artista,tiempo,[listas]],[cancion,artista,tiempo,[listas]]]
+    y esta funcion devuelve el .pdf con los datos en tabla y el histograma'''
     doc = open('graficaYDatos.tex','w')
     doc.write('\\input{preambulo.tex} \n')
     doc.write('\\begin{document} \n')
@@ -67,8 +75,3 @@ def pdf(datos):
     subprocess.run('del "graficaYDatos.out"', shell=True)
     subprocess.run('cls', shell=True)
     return
-
-data = [['nombre', 'maje', 3.5, ['q']],['nombre', 'maje', 2.3, ['p','q']],['nombre', 'maje', 6, ['p','q']],['nombre', 'maje', 1, ['p','q','r','s']],['nombre', 'maje', 6, ['p','q']],['nombre', 'maje', 6.7, ['p','q']],['nombre', 'maje', 7.4, ['p']],['nombre', 'maje', 9.2, ['p','q']],['nombre', 'maje', 6.66, ['p','q','r']],['nombre', 'maje', 6.1, ['q']]]
-
-graph(data)
-pdf(data)

@@ -17,7 +17,7 @@ print(x[25][8:18])
 print(x[25][33:len(x[26]) - 10])
 '''
 
-def lectura(arxiv):
+def lectura(arxiv,dir):
     archivo = open(arxiv,'r')
 
     x = archivo.readlines()
@@ -40,11 +40,8 @@ def lectura(arxiv):
         song.append(canciones[3*i])
         song.append(canciones[3*i + 1])
         song.append(canciones[3*i + 2])
-        song.append([arxiv[0:len(arxiv) - 4]])
+        song.append([arxiv[len(dir):len(arxiv) - 4]])
         songs.append(song)
     '''esto es para que devuelva el formato necesario para las funciones
     que generan la gráfica y el reporte'''
     return songs
-
-print(lectura('lista1.xml'))
-print(lectura('lista2.xml'))
