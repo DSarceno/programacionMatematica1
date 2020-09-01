@@ -1,0 +1,15 @@
+Diego Sarceño
+201900109
+
+Practica  1
+
+Solo es necesario compilar el archivo de nombre 'main.py'
+con dado eso, el programa regresa:
+	1. canciones.csv
+		> archivo .csv con las canciones, su nombre artista y tiempo de duracion
+	2. histograma.pdf
+		> grafica con el histograma tiempo-numero de canciones
+	3. graficaYDatos.pdf
+		> reporte con la tabla de las canciones y el histograma
+
+No eliminar la imagen del logo de la escuela pues, sirve en el reporte.
