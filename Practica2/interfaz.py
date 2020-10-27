@@ -8,12 +8,15 @@ import gi
 gi.require_version('Gtk','3.0')
 from gi.repository import Gtk
 import webbrowser
+import numpy as np
+import random
 
 
 class ventana(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self,title='Juego de la Vida')
-        self.set_default_size(400,300)
+        self.set_default_size(300,300)
+        self.set_resizable(False)
         # self.layout = Gtk.Box()
         # self.add(self.layout)
 
@@ -105,15 +108,32 @@ class ventana(Gtk.Window):
 
         # Hace que el menu haga loque tiene que hacer
         archCI.connect("activate", self.archCI_activate)
+        archCA.connect("activate", self.archCA_activate)
         helpCF.connect("activate", self.helpCF_activate)
 
 
 
     def archCI_activate(self, widget):
-        print('Funciona el muenaso itemaso')
+        dialog = Gtk.FileChooserDialog('Select a File',self,Gtk.FileChooserAction.OPEN,('Cancel',Gtk.ResponseType.CANCEL,'Ok',Gtk.ResponseType.OK))
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            print('Buenardo, archivo seleccionado: ',dialog.get_filename())
+        elif response == Gtk.ResponseType.CANCEL:
+            print('Ningún archivo seleccionado')
+        dialog.destroy()
+
+    def archCA_activate(self, widget):
+        n = random.randint(3,250)
+        gstate = np.zeros((n,n))
+
+        for y in range(n):
+            for x in range(n):
+                gstate[x,y] = random.randint(0,1)
+
+        print(gstate)
 
     def helpCF_activate(self, widget):
-        webbrowser.open_new_tab('https://www.twitch.tv/')
+        webbrowser.open_new_tab('https://github.com/DSarceno/programacionMatematica1/tree/master/Practica2')
 
 
 
