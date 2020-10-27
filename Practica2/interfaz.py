@@ -118,6 +118,10 @@ class ventana(Gtk.Window):
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
             print('Buenardo, archivo seleccionado: ',dialog.get_filename())
+            ruta = dialog.get_filename()
+            file = open(ruta,'r')
+            data = file.readline()
+            print(data)
         elif response == Gtk.ResponseType.CANCEL:
             print('Ningún archivo seleccionado')
         dialog.destroy()
