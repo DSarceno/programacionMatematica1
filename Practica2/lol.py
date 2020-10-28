@@ -1,3 +1,6 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
 g = 100
 N = 160
 

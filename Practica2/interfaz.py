@@ -4,6 +4,8 @@
 # @Author: Diego Sarceno
 # Date: 22.10.2020
 
+
+# Modulos Requeridos
 import gi
 gi.require_version('Gtk','3.0')
 from gi.repository import Gtk
@@ -11,7 +13,7 @@ import webbrowser
 import numpy as np
 import random
 
-
+# Clase General
 class ventana(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self,title='Juego de la Vida')
@@ -29,7 +31,7 @@ class ventana(Gtk.Window):
         hb.set_show_close_button(True)
 
 
-
+        #····································································
         # BARRA DE MENU
         mainMenuB = Gtk.MenuBar()
         # Archivo
@@ -85,36 +87,18 @@ class ventana(Gtk.Window):
         # self.layout.pack_start(mainMenuB,True, True, 0)
         hb.pack_start(mainMenuB)
         grid.attach(hb,0,0,4,1)
+        # ····································································
 
-        '''
-        # Create Notebook
-        self.notebook = Gtk.Notebook()
-        self.add(self.notebook)
-
-        # Create Boxes
-        self.page1 = Gtk.Box()
-        self.page1.set_border_width(50)
-        self.page1.add(Gtk.Label("Saliooooooo xd"))
-        self.notebook.append_page(self.page1, Gtk.Label("Pag1"))
-
-        self.page2 = Gtk.Box()
-        self.page2.set_border_width(50)
-        self.page2.add(Gtk.Label("Buenardo"))
-        self.notebook.append_page(self.page2, Gtk.Label("Pag2"))
-
-        grid.attach(self.notebook,0,2,4,6)
-        '''
-
-
-        # Hace que el menu haga loque tiene que hacer
+        # Hace que el menu haga lo que tiene que hacer
         archCI.connect("activate", self.archCI_activate)
         archCA.connect("activate", self.archCA_activate)
+        helpAD.connect("activate", self.helpAD_activate)
         helpCF.connect("activate", self.helpCF_activate)
 
-
-
+        #·····································································
+    # Funcionamiento del menu
     def archCI_activate(self, widget):
-        dialog = Gtk.FileChooserDialog('Select a File',self,Gtk.FileChooserAction.OPEN,('Cancel',Gtk.ResponseType.CANCEL,'Ok',Gtk.ResponseType.OK))
+        dialog = Gtk.FileChooserDialog('Select a File',None,Gtk.FileChooserAction.OPEN,('Cancel',Gtk.ResponseType.CANCEL,'Ok',Gtk.ResponseType.OK))
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
             print('Buenardo, archivo seleccionado: ',dialog.get_filename())
@@ -135,6 +119,9 @@ class ventana(Gtk.Window):
                 gstate[x,y] = random.randint(0,1)
 
         print(gstate)
+
+    def helpAD_activate(self, widget):
+        webbrowser.open_new_tab('https://github.com/DSarceno/programacionMatematica1/blob/master/Practica2/README.md')
 
     def helpCF_activate(self, widget):
         webbrowser.open_new_tab('https://github.com/DSarceno/programacionMatematica1/tree/master/Practica2')
