@@ -27,14 +27,17 @@ class ventana(Gtk.Window):
         self.set_resizable(False)
         # self.layout = Gtk.Box()
         # self.add(self.layout)
+        self.box = Gtk.VBox()
+        self.add(self.box)
 
-        grid = Gtk.Grid()
-        self.add(grid)
 
+        self.grid = Gtk.Grid()
+        self.add(self.grid)
+        self.box.pack_start(self.grid,True,True,0)
 
         # Create HeaderBar.
-        hb = Gtk.HeaderBar()
-        hb.set_show_close_button(True)
+        self.hb = Gtk.HeaderBar()
+        self.hb.set_show_close_button(True)
 
 
         #····································································
@@ -91,8 +94,9 @@ class ventana(Gtk.Window):
         mainMenuB.append(helpMenuName)
 
         # self.layout.pack_start(mainMenuB,True, True, 0)
-        hb.pack_start(mainMenuB)
-        grid.attach(hb,0,0,4,1)
+        self.hb.pack_start(mainMenuB)
+        self.grid.attach(self.hb,0,0,4,1)
+        #self.box.pack_start(self.hb,True,True,0)
         # ····································································
 
         # Hace que el menu haga lo que tiene que hacer
@@ -129,30 +133,95 @@ class ventana(Gtk.Window):
         global gState
         gState = np.zeros((N,N))
 
-        for y in range(n):
-            for x in range(n):
+        for y in range(N):
+            for x in range(N):
                 gState[y,x] = random.randint(0,1)
 
     def conFN_activate(self, widget):
         # SIMULACION
-        def vecindad(gState):
+        def vecindadNormal(gState):
             '''Esto crea una matriz en la que cada entrada muestra el numero de celulas
-            vivas alrededor de dicha celula'''
-            neigh = (
-                np.roll(np.roll(gState, 1, 1), 1, 0) +  # Abajo-derecha
-                np.roll(gState, 1, 0) +  # Abajo
-                np.roll(np.roll(gState, -1, 1), 1, 0) +  # Abajo-izquierda
-                np.roll(gState, -1, 1) +  # Izquierda
-                np.roll(np.roll(gState, -1, 1), -1, 0) +  # Arriba-izquierda
-                np.roll(gState, -1, 0) +  # Arriba
-                np.roll(np.roll(gState, 1, 1), -1, 0) +  # Arriba-derecha
-                np.roll(gState, 1, 1)  # Derecha
+            vivas alrededor de dicha celula con fronteras normales'''
+            # CUADRO INTERIOR
+            neigh = np.zeros((len(gState),len(gState)))
+            for j in range(1,len(gState) - 1):
+                for i in range(1,len(gState) - 1):
+                    neigh[j,i] = (
+                        gState[j + 1,i - 1] +  # Abajo - Izquierda
+                        gState[j + 1,i] +  # Abajo
+                        gState[j + 1,i + 1] +  # Abajo - Derecha
+                        gState[j,i + 1] +  # Derecha
+                        gState[j - 1,i + 1] +  # Arriba - Derecha
+                        gState[j - 1,i] +  # Arriba
+                        gState[j - 1,i - 1] +  # Arriba - Izquierda
+                        gState[j,i - 1]  # Izquierda
+                    )
+            # HORIZONTAL SUPERIOR SIN ESQUINAS
+            for i in range(1,len(gState) - 1):
+                neigh[0,i] = (
+                    gState[0,i - 1] + # Izquierda
+                    gState[1,i - 1] + # Abajo - Izquierda
+                    gState[1,i] + # Abajo
+                    gState[1,i + 1] + # Abajo - Derecha
+                    gState[0,i + 1] # Derecha
+                )
+
+            # HORIZONTAL INFERIOR SIN ESQUINAS
+            for i in range(1,len(gState) - 1):
+                neigh[len(gState) - 1,i] = (
+                    gState[len(gState) - 1,i - 1] + # Izquierda
+                    gState[len(gState) - 2,i - 1] + # Arriba - Izquierda
+                    gState[len(gState) - 2,i] + # Arriba
+                    gState[len(gState) - 2,i + 1] + # Arriba - Derecha
+                    gState[len(gState) - 1,i + 1] # Derecha
+                )
+            # VERTICAL IZQUIERDA SIN ESQUINAS
+            for j in range(1,len(gState) - 1):
+                neigh[j,0] = (
+                    gState[j - 1,0] + # Arriba
+                    gState[j - 1,1] + # Arriba - Derecha
+                    gState[j,1] + # Derecha
+                    gState[j + 1,1] + # Abajo - Derecha
+                    gState[j + 1,0] # Abajo
+                )
+            # VERTICAL DERECHA SIN ESQUINAS
+            for j in range(1,len(gState) - 1):
+                neigh[j,0] = (
+                    gState[j - 1,len(gState) - 1] + # Arriba
+                    gState[j - 1,len(gState) - 2] + # Arriba - Izquierda
+                    gState[j,len(gState) - 2] + # Izquierda
+                    gState[j + 1,len(gState) - 2] + # Abajo - Izquierda
+                    gState[j + 1,len(gState) - 1] # Abajo
+                )
+            #ESQUINA SUPERIOR IZQUIERDA
+            neigh[0,0] = (
+                gState[0,1] + # Derecha
+                gState[1,1] + # Abajo - Derecha
+                gState[1,0] # Abajo
+            )
+            # ESQUINA SUPERIOR DERECHA
+            neigh[0,len(gState) - 1] = (
+                gState[0,len(gState) - 2] + # Izquierda
+                gState[1,len(gState) - 2] + # Abajo - Izquierda
+                gState[1,len(gState) - 1] # Abajo
+            )
+            # ESQUINA INFERIOR IZQUIERDA
+            neigh[len(gState) - 1,0] = (
+                gState[len(gState) - 2,0] + # Arriba
+                gState[len(gState) - 2,1] + # Arriba - Derecha
+                gState[len(gState) - 1,1] # Derecha
+            )
+            # ESQUINA INFERIOR DERECHA
+            neigh[len(gState) - 1,len(gState) - 1] = (
+                gState[len(gState) - 2,len(gState) - 1] + # Arriba
+                gState[len(gState) - 2,len(gState) - 2] + # Arriba - Izquierda
+                gState[len(gState) - 1,len(gState) - 2] # Izquierda
             )
             return neigh
 
         def paso(gState):
             '''Reglas del juego de la vida'''
-            v = vecindad(gState)
+            v = vecindadNormal(gState)
             ngState = gState.copy()  # Copia de la matriz para no sobreescribir
             for i in range(ngState.shape[0]):
                 for j in range(ngState.shape[1]):
@@ -161,6 +230,7 @@ class ventana(Gtk.Window):
                     else:
                         ngState[i, j] = 0
             return ngState
+
 
         pause = False # Pausa
         '''
@@ -196,8 +266,12 @@ class ventana(Gtk.Window):
         '''
 
         anim = animation.FuncAnimation(fig, animate, frames=100, blit=True, interval = 200, repeat = True)
-        grafico = Gtk.ScrolledWindow()
-        canvas = FigureCanvas(fig)
+        #grafico = Gtk.ScrolledWindow()
+        #canvas = FigureCanvas(fig)
+        #grafico.add(canvas)
+        #self.box.pack_start(grafico,True,True,0)
+        #self.grid.attach_next_to(grafico,self.hb,Gtk.PositionType.BOTTOM,4,4)
+        #self.add(grafico)
         plt.show()
 
 
