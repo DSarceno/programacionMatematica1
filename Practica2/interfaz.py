@@ -12,6 +12,12 @@ from gi.repository import Gtk
 import webbrowser
 import numpy as np
 import random
+import time
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from matplotlib import animation
+from matplotlib.widgets import Button
+from matplotlib.backends.backend_gtk3cairo import FigureCanvasGTK3Cairo as FigureCanvas
 
 # Clase General
 class ventana(Gtk.Window):
@@ -92,6 +98,8 @@ class ventana(Gtk.Window):
         # Hace que el menu haga lo que tiene que hacer
         archCI.connect("activate", self.archCI_activate)
         archCA.connect("activate", self.archCA_activate)
+        conFN.connect("activate", self.conFN_activate)
+        conFT.connect("activate", self.conFT_activate)
         helpAD.connect("activate", self.helpAD_activate)
         helpCF.connect("activate", self.helpCF_activate)
 
@@ -101,24 +109,161 @@ class ventana(Gtk.Window):
         dialog = Gtk.FileChooserDialog('Select a File',None,Gtk.FileChooserAction.OPEN,('Cancel',Gtk.ResponseType.CANCEL,'Ok',Gtk.ResponseType.OK))
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            print('Buenardo, archivo seleccionado: ',dialog.get_filename())
-            ruta = dialog.get_filename()
-            file = open(ruta,'r')
-            data = file.readline()
-            print(data)
+            # Lectura del archivo .pm2
+            file = open(dialog.get_filename(),'r')
+            global N
+            N = int(file.readline())
+            data = [line.split() for line in file]
+            global gState
+            gState = np.zeros((N,N))
+            for j in range(len(data)):
+                for i in range(len(data)):
+                    gState[j,i] = int(data[j][i])
         elif response == Gtk.ResponseType.CANCEL:
-            print('Ningún archivo seleccionado')
+            pass
         dialog.destroy()
 
     def archCA_activate(self, widget):
-        n = random.randint(3,250)
-        gstate = np.zeros((n,n))
+        global N
+        N = random.randint(3,250)
+        global gState
+        gState = np.zeros((N,N))
 
         for y in range(n):
             for x in range(n):
-                gstate[x,y] = random.randint(0,1)
+                gState[y,x] = random.randint(0,1)
 
-        print(gstate)
+    def conFN_activate(self, widget):
+        # SIMULACION
+        def vecindad(gState):
+            '''Esto crea una matriz en la que cada entrada muestra el numero de celulas
+            vivas alrededor de dicha celula'''
+            neigh = (
+                np.roll(np.roll(gState, 1, 1), 1, 0) +  # Abajo-derecha
+                np.roll(gState, 1, 0) +  # Abajo
+                np.roll(np.roll(gState, -1, 1), 1, 0) +  # Abajo-izquierda
+                np.roll(gState, -1, 1) +  # Izquierda
+                np.roll(np.roll(gState, -1, 1), -1, 0) +  # Arriba-izquierda
+                np.roll(gState, -1, 0) +  # Arriba
+                np.roll(np.roll(gState, 1, 1), -1, 0) +  # Arriba-derecha
+                np.roll(gState, 1, 1)  # Derecha
+            )
+            return neigh
+
+        def paso(gState):
+            '''Reglas del juego de la vida'''
+            v = vecindad(gState)
+            ngState = gState.copy()  # Copia de la matriz para no sobreescribir
+            for i in range(ngState.shape[0]):
+                for j in range(ngState.shape[1]):
+                    if v[i, j] == 3 or (v[i, j] == 2 and ngState[i, j]):
+                        ngState[i, j] = 1
+                    else:
+                        ngState[i, j] = 0
+            return ngState
+
+        pause = False # Pausa
+        '''
+        def onClick(event):
+            global pause
+            pause ^= True
+        '''
+        # Creamos la figura, formateo diverso
+        fig = plt.figure(figsize=(4, 4))
+        ax = fig.add_subplot(111)
+        imagen = ax.imshow(gState, interpolation="none", aspect = "equal", cmap=cm.bwr)
+
+        plt.tick_params(
+            axis='x',
+            which='both',
+            bottom=False,
+            top=False,
+            labelbottom=False)
+
+        def animate(i):
+            global gState
+            if not pause:
+                print(i)
+                gState = paso(gState)
+                imagen.set_data(gState)
+
+            return imagen,
+        '''
+        # Play/Pausa
+        pause_ax = fig.add_axes((0.3, 0.025, 0.23, 0.04), anchor = 'SE')
+        pause_button = Button(pause_ax, 'Play/pause', hovercolor='0.975')
+        pause_button.on_clicked(onClick)
+        '''
+
+        anim = animation.FuncAnimation(fig, animate, frames=100, blit=True, interval = 200, repeat = True)
+        grafico = Gtk.ScrolledWindow()
+        canvas = FigureCanvas(fig)
+        plt.show()
+
+
+    def conFT_activate(self,widget):
+        def vecindad(gState):
+            '''Esto crea una matriz en la que cada entrada muestra el numero de celulas
+            vivas alrededor de dicha celula con fronteras toroidales'''
+            neigh = (
+                np.roll(np.roll(gState, 1, 1), 1, 0) +  # Abajo-derecha
+                np.roll(gState, 1, 0) +  # Abajo
+                np.roll(np.roll(gState, -1, 1), 1, 0) +  # Abajo-izquierda
+                np.roll(gState, -1, 1) +  # Izquierda
+                np.roll(np.roll(gState, -1, 1), -1, 0) +  # Arriba-izquierda
+                np.roll(gState, -1, 0) +  # Arriba
+                np.roll(np.roll(gState, 1, 1), -1, 0) +  # Arriba-derecha
+                np.roll(gState, 1, 1)  # Derecha
+            )
+            return neigh
+
+
+        def paso(gState):
+            '''Reglas del juego de la vida'''
+            v = vecindad(gState)
+            ngState = gState.copy()  # Copia de la matriz para no sobreescribir
+            for i in range(ngState.shape[0]):
+                for j in range(ngState.shape[1]):
+                    if v[i, j] == 3 or (v[i, j] == 2 and ngState[i, j]):
+                        ngState[i, j] = 1
+                    else:
+                        ngState[i, j] = 0
+            return ngState
+
+        pause = False # Pausa
+        '''
+        def onClick(event):
+            global pause
+            pause ^= True
+        '''
+        # Creamos la figura, formateo diverso
+        fig = plt.figure(figsize=(4, 4))
+        ax = fig.add_subplot(111)
+        imagen = ax.imshow(gState, interpolation="none", aspect = "equal", cmap=cm.bwr)
+
+        plt.tick_params(
+            axis='x',
+            which='both',
+            bottom=False,
+            top=False,
+            labelbottom=False)
+
+        def animate(i):
+            global gState
+            if not pause:
+                print(i)
+                gState = paso(gState)
+                imagen.set_data(gState)
+
+            return imagen,
+        '''
+        # Play/Pausa
+        pause_ax = fig.add_axes((0.3, 0.025, 0.23, 0.04), anchor = 'SE')
+        pause_button = Button(pause_ax, 'Play/pause', hovercolor='0.975')
+        pause_button.on_clicked(onClick)
+        '''
+        anim = animation.FuncAnimation(fig, animate, frames=100, blit=True, interval = 200, repeat = True)
+        plt.show()
 
     def helpAD_activate(self, widget):
         webbrowser.open_new_tab('https://github.com/DSarceno/programacionMatematica1/blob/master/Practica2/README.md')
