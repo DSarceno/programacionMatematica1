@@ -27,8 +27,6 @@ class ventana(Gtk.Window):
         Gtk.Window.__init__(self,title='Juego de la Vida')
         self.set_default_size(350,100)
         self.set_resizable(False)
-        # self.layout = Gtk.Box()
-        # self.add(self.layout)
         self.box = Gtk.VBox()
         self.add(self.box)
 
@@ -113,9 +111,9 @@ class ventana(Gtk.Window):
         self.grid.attach_next_to(self.savePos,self.pp,Gtk.PositionType.RIGHT,1,1)
 
 
-        self.scale = Gtk.ScaleButton().new(2,0.01,5,0.01,None)
+        self.scale = Gtk.ScaleButton().new(2,0.00001,5,0.00001,None)
         self.grid.attach_next_to(self.scale,self.savePos,Gtk.PositionType.RIGHT,1,1)
-        self.timeFrame = 0.2
+        self.timeFrame = 1
 
 
         self.buffer = Gtk.TextBuffer()
@@ -151,7 +149,7 @@ class ventana(Gtk.Window):
     # Boton de guardado de estado
     def savePos_clicked(self, widget):
         # FORMATO DE NOMBRES 'AñoMesDiaHoraMinutoSegundo.jvpm2'
-        name = str(self.now.year) + str(self.now.month) + str(self.now.day) + str(self.now.hour) + str(self.now.minute) + str(self.now.second) + '.jvpm2'
+        name = 'estadosGuardados/' + str(self.now.year) + str(self.now.month) + str(self.now.day) + str(self.now.hour) + str(self.now.minute) + str(self.now.second) + '.jvpm2'
         file = open(name,'w')
         file.write(str(N) + '\n')
         for j in range(N):
@@ -301,7 +299,7 @@ class ventana(Gtk.Window):
 
         def animate(i):
             global gState
-            if not self.pause:
+            if self.pause == False:
                 self.buffer.set_text(str(i))
                 gState = paso(gState)
                 imagen.set_data(gState)
@@ -309,12 +307,6 @@ class ventana(Gtk.Window):
             return imagen,
 
         anim = animation.FuncAnimation(fig, animate, frames=100, blit=True, interval = (self.timeFrame * 1000), repeat = True)
-        #grafico = Gtk.ScrolledWindow()
-        #canvas = FigureCanvas(fig)
-        #grafico.add(canvas)
-        #self.box.pack_start(grafico,False,False,0)
-        #self.grid.attach_next_to(grafico,self.hb,Gtk.PositionType.BOTTOM,4,4)
-        #self.add(grafico)
         plt.show()
 
 
