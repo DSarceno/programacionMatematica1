@@ -25,7 +25,7 @@ from datetime import datetime
 class ventana(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self,title='Juego de la Vida')
-        self.set_default_size(350,350)
+        self.set_default_size(350,100)
         self.set_resizable(False)
         # self.layout = Gtk.Box()
         # self.add(self.layout)
@@ -55,14 +55,14 @@ class ventana(Gtk.Window):
         archMenuName = Gtk.MenuItem('Archivo')
             # Items
         archCI = Gtk.MenuItem('Cargar Configuración Inicial')
-        archGS = Gtk.MenuItem('Guardar Estado de Simulación')
+        #archGS = Gtk.MenuItem('Guardar Estado de Simulación')
         archCA = Gtk.MenuItem('Generar Configuración Inicial Aleatoria')
 
         archMenuName.set_submenu(archMenu)
         archMenu.append(archCI)
         archMenu.append(Gtk.SeparatorMenuItem())
-        archMenu.append(archGS)
-        archMenu.append(Gtk.SeparatorMenuItem())
+        #archMenu.append(archGS)
+        #archMenu.append(Gtk.SeparatorMenuItem())
         archMenu.append(archCA)
 
 
@@ -72,14 +72,14 @@ class ventana(Gtk.Window):
             # Items
         conFN = Gtk.MenuItem('Fronteras Normales')
         conFT = Gtk.MenuItem('Fronteras Toroidales')
-        conST = Gtk.MenuItem('Segundos de Espera entre Turnos')
+        #conST = Gtk.MenuItem('Segundos de Espera entre Turnos')
 
         conMenuName.set_submenu(conMenu)
         conMenu.append(conFN)
         conMenu.append(Gtk.SeparatorMenuItem())
         conMenu.append(conFT)
-        conMenu.append(Gtk.SeparatorMenuItem())
-        conMenu.append(conST)
+        #conMenu.append(Gtk.SeparatorMenuItem())
+        #conMenu.append(conST)
 
 
         # Ayuda
@@ -108,24 +108,26 @@ class ventana(Gtk.Window):
         self.pp = Gtk.Button('Play/Pausa')
         self.grid.attach(self.pp,1,2,1,1)
 
+
         self.savePos = Gtk.Button('Guardar')
         self.grid.attach_next_to(self.savePos,self.pp,Gtk.PositionType.RIGHT,1,1)
 
-        self.screenShot = Gtk.Button('Screen Shot')
-        #self.grid.attach_next_to(self.screenShot,self.savePos,Gtk.PositionType.RIGHT,1,1)
 
-        self.timeIter = Gtk.SpinButton()
-        self.grid.attach_next_to(self.timeIter,self.savePos,Gtk.PositionType.RIGHT,1,1)
+        self.scale = Gtk.ScaleButton().new(2,0.01,5,0.01,None)
+        self.grid.attach_next_to(self.scale,self.savePos,Gtk.PositionType.RIGHT,1,1)
+        self.timeFrame = 0.2
+
 
         self.buffer = Gtk.TextBuffer()
         self.display = Gtk.TextView(buffer = self.buffer)
         self.display.set_size_request(30,30)
-        self.grid.attach_next_to(self.display,self.timeIter,Gtk.PositionType.RIGHT,1,1)
+        self.grid.attach_next_to(self.display,self.scale,Gtk.PositionType.RIGHT,1,1)
         # ····································································
 
         # Hace que los botones hagan lo que tienen que hacer
         self.pp.connect('clicked', self.pp_clicked)
         self.savePos.connect('clicked', self.savePos_clicked)
+        self.scale.connect('value-changed', self.scale_clicked)
 
         # Hace que el menu haga lo que tiene que hacer
         archCI.connect("activate", self.archCI_activate)
@@ -138,6 +140,10 @@ class ventana(Gtk.Window):
 
         #·····································································
     # Funcionamiento de los botones
+    # Escala tiempo
+    def scale_clicked(self,scalebutton,value):
+        self.timeFrame = self.scale.get_value()
+
     # Boton de pausa
     def pp_clicked(self, widget):
         self.pause ^= True
@@ -291,25 +297,25 @@ class ventana(Gtk.Window):
             which='both',
             bottom=False,
             top=False,
-            labelbottom=False)
+            labelbottom=True)
 
         def animate(i):
             global gState
             if not self.pause:
-                self.buffer.set_text(i)
+                self.buffer.set_text(str(i))
                 gState = paso(gState)
                 imagen.set_data(gState)
 
             return imagen,
 
-        anim = animation.FuncAnimation(fig, animate, frames=100, blit=True, interval = 200, repeat = True)
-        grafico = Gtk.ScrolledWindow()
-        canvas = FigureCanvas(fig)
-        grafico.add(canvas)
+        anim = animation.FuncAnimation(fig, animate, frames=100, blit=True, interval = (self.timeFrame * 1000), repeat = True)
+        #grafico = Gtk.ScrolledWindow()
+        #canvas = FigureCanvas(fig)
+        #grafico.add(canvas)
         #self.box.pack_start(grafico,False,False,0)
-        self.grid.attach_next_to(grafico,self.hb,Gtk.PositionType.BOTTOM,4,4)
+        #self.grid.attach_next_to(grafico,self.hb,Gtk.PositionType.BOTTOM,4,4)
         #self.add(grafico)
-        #plt.show()
+        plt.show()
 
 
     def conFT_activate(self,widget):
@@ -351,26 +357,25 @@ class ventana(Gtk.Window):
             which='both',
             bottom=False,
             top=False,
-            labelbottom=False,
-            labelright=False)
+            labelbottom=True)
 
         def animate(i):
             global gState
             if self.pause == False:
-                self.buffer.set_text(i)
+                self.buffer.set_text(str(i))
                 gState = paso(gState)
                 imagen.set_data(gState)
 
             return imagen,
 
-        anim = animation.FuncAnimation(fig, animate, frames=100, blit=True, interval = 200, repeat = True)
+        anim = animation.FuncAnimation(fig, animate, frames=100, blit=True, interval = (self.timeFrame * 1000), repeat = True)
         plt.show()
 
     def helpAD_activate(self, widget):
         webbrowser.open_new_tab('https://github.com/DSarceno/programacionMatematica1/blob/master/Practica2/README.md')
 
     def helpCF_activate(self, widget):
-        webbrowser.open_new_tab('https://github.com/DSarceno/programacionMatematica1/tree/master/Practica2')
+        webbrowser.open_new_tab('https://github.com/DSarceno/programacionMatematica1/blob/master/Practica2/interfaz.py')
 
 
 
