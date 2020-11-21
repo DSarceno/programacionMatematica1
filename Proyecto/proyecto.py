@@ -12,3 +12,105 @@
 import gi
 gi.require_version('Gtk','3.0')
 from gi.repository import Gtk
+from datetime import datetime
+
+class ascii(Gtk.Window):
+    def __init__(self):
+        Gtk.Window.__init__(self, title = 'Arte ASCII')
+        self.set_default_size(350,100)
+        self.set_resizable(False)
+        self.box = Gtk.VBox()
+        self.add(self.box)
+
+
+        self.grid = Gtk.Grid()
+        self.grid.set_row_spacing(4)
+        self.grid.set_column_spacing(5)
+        #self.add(self.grid)
+        self.box.pack_start(self.grid,True,True,0)
+
+        # Create HeaderBar.
+        self.hb = Gtk.HeaderBar()
+        self.hb.set_show_close_button(True)
+
+        #····································································
+        self.now = datetime.now()
+        # ···································································
+        # BARRA DE MENU
+        mainMenuB = Gtk.MenuBar()
+        # Archivo
+        imgMenu = Gtk.Menu()
+        imgMenuName = Gtk.MenuItem('Imagen')
+            # Items
+        imgCI = Gtk.MenuItem('Cargar Imagen')
+        #archGS = Gtk.MenuItem('Guardar Estado de Simulación')
+        #archCA = Gtk.MenuItem('Generar Configuración Inicial Aleatoria')
+
+        imgMenuName.set_submenu(imgMenu)
+        imgMenu.append(imgCI)
+
+
+        # Config
+        twMenu = Gtk.Menu()
+        twMenuName = Gtk.MenuItem('Twitter')
+            # Items
+        twSI = Gtk.MenuItem('Iniciar Sesión')
+        twLO = Gtk.MenuItem('Cerrar Sesión')
+        #conST = Gtk.MenuItem('Segundos de Espera entre Turnos')
+
+        twMenuName.set_submenu(twMenu)
+        twMenu.append(twSI)
+        twMenu.append(Gtk.SeparatorMenuItem())
+        twMenu.append(twLO)
+        #conMenu.append(Gtk.SeparatorMenuItem())
+        #conMenu.append(conST)
+
+
+        # Ayuda
+        helpMenu = Gtk.Menu()
+        helpMenuName = Gtk.MenuItem('Ayuda')
+            # Items
+        helpAD = Gtk.MenuItem('Acerca de...')
+
+        helpMenuName.set_submenu(helpMenu)
+        helpMenu.append(helpAD)
+
+
+        # se añade al menu principal
+        mainMenuB.append(imgMenuName)
+        mainMenuB.append(twMenuName)
+        mainMenuB.append(helpMenuName)
+
+        # self.layout.pack_start(mainMenuB,True, True, 0)
+        self.hb.pack_start(mainMenuB)
+        self.grid.attach(self.hb,0,0,5,1)
+        #self.box.pack_start(self.hb,True,True,0)
+
+        # ACCIONES DEL MENU
+        helpAD.connect('activate', self.helpAD_activate)
+
+
+
+
+    def helpAD_activate(self, widget):
+        #acerca de dialogo
+        vbox = Gtk.VBox()
+        adD = Gtk.AboutDialog()
+        adD.set_program_name('Arte ASCII')
+        adD.set_version('Programación Matemática 1')
+        adD.set_authors('DSR')
+        adD.set_copyright('Copyright © 2020 Diego Sarceño')
+        adD.set_comments('Conversor de imágenes a Artes ASCII, programado con e lenguaje de Python 3.')
+        adD.set_website('https://github.com/DSarceno/programacionMatematica1/blob/master/Proyecto/proyecto.py')
+        adD.set_website_label('Codigo Fuente')
+
+        vbox.pack_start(adD, False, False, 0)
+        self.add(vbox)
+        adD.run()
+        adD.destroy()
+
+
+ventana = ascii()
+ventana.connect('delete-event', Gtk.main_quit)
+ventana.show_all()
+Gtk.main()
