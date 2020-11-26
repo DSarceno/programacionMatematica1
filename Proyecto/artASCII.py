@@ -49,16 +49,12 @@ def imagetoAscii(image, newWidth=100):
     outputImage = Image.new('RGB', (10*newWidth, 12*newHeight), color = (0, 0, 0))
     drawImage = ImageDraw.Draw(outputImage)
 
-    # file = open('asiiArt.txt','r')
 
     for i in range(newHeight):
         for j in range(newWidth):
-            # file.write(pixelsChars[j + i*newWidth])
             drawImage.text((10*j, 12*i), pixelsChars[j + i*newWidth], font = fnt, fill = (255, 255, 255))
-        # file.write('\n')
     outputImage.save('asciiArt.png')
 
-    # file.close()
 
     # realiza los saltos de linea para imprimirlo en la terminal
     lenPixelsChars = len(pixelsChars)
@@ -77,6 +73,9 @@ def main(file, newWidth = 100):
 
     imageAscii = imagetoAscii(image)
     print(imageAscii)
+
+    with open('asciiArt.txt', 'w') as f:
+        f.write(imageAscii)
 
 
 

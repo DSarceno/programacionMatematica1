@@ -18,7 +18,7 @@ from datetime import datetime
 class ascii(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title = 'Arte ASCII')
-        self.set_default_size(1000,400)
+        self.set_default_size(300,400)
         self.set_resizable(False)
         self.box = Gtk.VBox()
         self.add(self.box)
@@ -34,6 +34,7 @@ class ascii(Gtk.Window):
         self.hb.set_show_close_button(True)
 
         #····································································
+        
         self.now = datetime.now()
         # ···································································
         # BARRA DE MENU
@@ -43,8 +44,6 @@ class ascii(Gtk.Window):
         imgMenuName = Gtk.MenuItem('Imagen')
             # Items
         imgCI = Gtk.MenuItem('Cargar Imagen')
-        #archGS = Gtk.MenuItem('Guardar Estado de Simulación')
-        #archCA = Gtk.MenuItem('Generar Configuración Inicial Aleatoria')
 
         imgMenuName.set_submenu(imgMenu)
         imgMenu.append(imgCI)
@@ -56,14 +55,12 @@ class ascii(Gtk.Window):
             # Items
         twSI = Gtk.MenuItem('Iniciar Sesión')
         twLO = Gtk.MenuItem('Cerrar Sesión')
-        #conST = Gtk.MenuItem('Segundos de Espera entre Turnos')
+
 
         twMenuName.set_submenu(twMenu)
         twMenu.append(twSI)
         twMenu.append(Gtk.SeparatorMenuItem())
         twMenu.append(twLO)
-        #conMenu.append(Gtk.SeparatorMenuItem())
-        #conMenu.append(conST)
 
 
         # Ayuda
@@ -85,8 +82,8 @@ class ascii(Gtk.Window):
         self.box1 = Gtk.HBox()
         self.hb.pack_start(mainMenuB)
         #self.grid.attach(self.hb,0,0,10,1)
-        self.box1.pack_start(self.hb,True,True,100)
-        self.grid.attach(self.box1,0,0,20,1)
+        self.box1.pack_start(self.hb,True,True,0)
+        self.grid.attach(self.box1,0,0,5,1)
 
         # ACCIONES DEL MENU
         imgCI.connect('activate', self.imgCI_activate)
@@ -97,12 +94,14 @@ class ascii(Gtk.Window):
         dialog = Gtk.FileChooserDialog('Select a File',None,Gtk.FileChooserAction.OPEN,('Cancel',Gtk.ResponseType.CANCEL,'Ok',Gtk.ResponseType.OK))
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
+            '''
             bx = Gtk.VBox()
             imagen = GdkPixbuf.Pixbuf.new_from_file_at_scale(dialog.get_filename(), 100, 100,False)
             imagenC = Gtk.Image()
             imagenC.set_from_pixbuf(imagen)
             bx.pack_start(imagenC,True,True,0)
             self.grid.attach_next_to(imagenC,self.box1,Gtk.PositionType.BOTTOM,10,10)
+            '''
         elif response == Gtk.ResponseType.CANCEL:
             pass
         dialog.destroy()
