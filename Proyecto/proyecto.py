@@ -33,8 +33,6 @@ class ascii(Gtk.Window):
         self.grid.set_column_spacing(1)
         self.box.pack_start(self.grid,True,True,0)
 
-        #self.boxV = Gtk.VBox()
-        #self.boxH = Gtk.HBox()
         self.boxNormal = Gtk.VBox()
         self.boxAscii = Gtk.VBox()
         self.boxGenerador = Gtk.HBox()
@@ -59,13 +57,8 @@ class ascii(Gtk.Window):
         self.otroAscii.connect('clicked',self.otroAscii_clicked)
         self.grid.attach(self.otroAscii,700,2,1,4)
 
-        #self.buffer = Gtk.TextBuffer()
-        #self.display = Gtk.TextView(buffer = self.buffer)
-        #self.display.set_size_request(200,0)
         self.entryAscii = Gtk.Entry()
         self.entryAscii.set_text('@#$S%?*+;:,. ')
-        #self.grid.attach(self.boxV, 400, 1, 1,1)
-        #self.grid.attach(self.boxH, 3, 142 ,500,1)
         self.grid.attach(self.boxNormal, 0, 150, 350,100)
         self.grid.attach(self.boxAscii, 350, 150, 350, 100)
         self.grid.attach_next_to(self.boxGenerador,self.boxNormal,Gtk.PositionType.BOTTOM,1,10)
@@ -131,7 +124,6 @@ class ascii(Gtk.Window):
         mainMenuB.append(helpMenuName)
 
 
-        #self.grid.attach(self.hb,0,0,10,1)
         self.grid.attach(mainMenuB,0,0,5,1)
 
         # ACCIONES DEL MENU
