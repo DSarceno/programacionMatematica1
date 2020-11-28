@@ -18,7 +18,14 @@ api = tweepy.API(auth, wait_on_rate_limit = True, wait_on_rate_limit_notify = Tr
 # print(dataImg)
 
 # api.update_status('#ASCIIArtPM1',media_ids = ['1332124793454415873'])
-
+'''
 file = 'asciiArt.png'
 tweet = '#ASCIIArtPM1'
 api.update_with_media(file, status = tweet)
+'''
+
+file = open('keys.txt','r')
+data = [line.split() for line in file]
+print(data)
+for i in range(1,len(data),2):
+    print(data[i][0], type(data[i][0]))

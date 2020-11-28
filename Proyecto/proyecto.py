@@ -17,6 +17,8 @@ from datetime import datetime
 import os
 from PIL import Image, ImageDraw, ImageFont
 import math as m
+import tweepy
+import subprocess
 
 class ascii(Gtk.Window):
     def __init__(self):
@@ -37,20 +39,54 @@ class ascii(Gtk.Window):
         self.boxAscii = Gtk.VBox()
         self.boxGenerador = Gtk.HBox()
         self.boxSaveTXT = Gtk.HBox()
+        self.boxTweet = Gtk.HBox()
+        self.charAscii = Gtk.Label('Caracteres: ')
         self.lNormal = Gtk.Label('Normal')
         self.lAscii = Gtk.Label('Arte ASCII')
+        self.lInvertir = Gtk.Label('¿Invertir imagen?')
 
+
+        self.radioSi = Gtk.RadioButton.new_with_label_from_widget(None, 'Sí')
+        self.radioSi.connect('toggled', self.radioSi_toggled)
+        self.radioNo = Gtk.RadioButton.new_from_widget(self.radioSi)
+        self.radioNo.set_label('No')
+        self.radioNo.connect('toggled', self.radioNo_toggled)
+
+        self.setAsciiChars = Gtk.Button('Aceptar')
+        self.setAsciiChars.connect('clicked',self.setAsciiChars_clicked)
+
+        self.otroAscii = Gtk.Button('Generar otro Arte Ascii')
+        self.otroAscii.connect('clicked',self.otroAscii_clicked)
+        self.grid.attach(self.otroAscii,700,2,1,4)
+
+        #self.buffer = Gtk.TextBuffer()
+        #self.display = Gtk.TextView(buffer = self.buffer)
+        #self.display.set_size_request(200,0)
+        self.entryAscii = Gtk.Entry()
+        self.entryAscii.set_text('@#$S%?*+;:,. ')
         #self.grid.attach(self.boxV, 400, 1, 1,1)
         #self.grid.attach(self.boxH, 3, 142 ,500,1)
         self.grid.attach(self.boxNormal, 0, 150, 350,100)
         self.grid.attach(self.boxAscii, 350, 150, 350, 100)
         self.grid.attach_next_to(self.boxGenerador,self.boxNormal,Gtk.PositionType.BOTTOM,1,10)
         self.grid.attach_next_to(self.boxSaveTXT,self.boxGenerador,Gtk.PositionType.RIGHT,1,10)
+        self.grid.attach_next_to(self.boxTweet,self.boxSaveTXT,Gtk.PositionType.RIGHT,1,10)
+
 
         self.grid.attach(self.lNormal, 100, 140, 1, 2)
         self.grid.attach(self.lAscii, 450, 140, 1, 2)
+
+        self.grid.attach(self.charAscii,0,2,1,3)
+        self.grid.attach_next_to(self.entryAscii,self.charAscii,Gtk.PositionType.RIGHT,1,3)
+
+        self.grid.attach_next_to(self.setAsciiChars, self.entryAscii, Gtk.PositionType.RIGHT,1,2)
+
+        self.grid.attach_next_to(self.radioSi, self.setAsciiChars, Gtk.PositionType.RIGHT, 1,2)
+        self.grid.attach_next_to(self.radioNo, self.radioSi, Gtk.PositionType.RIGHT, 1,2)
         #····································································
         self.file = ''
+        self.ASCII_CHARS = ''
+        self.credenciales = False
         self.now = datetime.now()
         # ···································································
         # BARRA DE MENU
@@ -101,21 +137,61 @@ class ascii(Gtk.Window):
         # ACCIONES DEL MENU
         imgCI.connect('activate', self.imgCI_activate)
         helpAD.connect('activate', self.helpAD_activate)
-
-
-
+        twSI.connect('activate', self.twSI_activate)
+        twLO.connect('activate', self.twLO_activate)
 
         # Boton para crear la imagen ascii
         self.generadorAscii = Gtk.Button('Generar Ascii')
         self.generadorAscii.connect('clicked',self.generadorAscii_clicked)
-
-        self.ASCII_CHARS = ['@','#','$','S','%','?','*','+',';',':','.',' ']
 
         self.saveTxt = Gtk.Button('Guardar Archivo')
         self.saveTxt.connect('clicked',self.saveTxt_clicked)
 
         self.tweetImg = Gtk.Button('Twittear Imagen ASCII')
         self.tweetImg.connect('clicked',self.tweetImg_clicked)
+
+    def otroAscii_clicked(self, widget):
+        self.connect('destroy',Gtk.main_quit)
+        subprocess.call(['python3','proyecto.py'])
+
+
+    def setAsciiChars_clicked(self, widget):
+        self.ASCII_CHARS = self.entryAscii.get_text()
+
+    def radioSi_toggled(self, widget):
+        self.ASCII_CHARS = list(self.ASCII_CHARS)[::-1]
+
+    def radioNo_toggled(self, widget):
+        self.ASCII_CHARS = list(self.ASCII_CHARS)
+
+
+
+    def twSI_activate(self, widget):
+        selectKey = Gtk.FileChooserDialog('Seleccione un archivo de llaves',None,Gtk.FileChooserAction.OPEN,('Cancel',Gtk.ResponseType.CANCEL,'Ok',Gtk.ResponseType.OK))
+        selectKey.set_default_response(Gtk.ResponseType.OK)
+        filtroKey = Gtk.FileFilter()
+        filtroKey.set_name('Llaves')
+        filtroKey.add_pattern('*.txt')
+        selectKey.add_filter(filtroKey)
+        response = selectKey.run()
+        if response == Gtk.ResponseType.OK:
+            fileKey = selectKey.get_filename()
+            keys = open(fileKey,'r')
+            global data
+            data = [line.split() for line in keys]
+            self.credenciales ^= True
+        elif response == Gtk.ResponseType.CANCEL:
+            pass
+        selectKey.destroy()
+
+    def twLO_activate(self, widget):
+        if self.credenciales == True:
+            data = []
+            self.credenciales ^= False
+        else:
+            pass
+
+
 
     def imgCI_activate(self, widget):
         selectImage = Gtk.FileChooserDialog('Seleccione una Imagen',None,Gtk.FileChooserAction.OPEN,('Cancel',Gtk.ResponseType.CANCEL,'Ok',Gtk.ResponseType.OK))
@@ -185,8 +261,8 @@ class ascii(Gtk.Window):
             for i in range(newHeight):
                 for j in range(newWidth):
                     drawImage.text((10*j, 12*i), pixelsChars[j + i*newWidth], font = fnt, fill = (255, 255, 255))
-            name = 'asciiArt.png'
-            outputImage.save(name)
+            name = str(self.now.year) + str(self.now.month) + str(self.now.day) + str(self.now.hour) + str(self.now.minute) + str(self.now.second)
+            outputImage.save('imagenesAscii/' + name + '.png')
 
 
             # realiza los saltos de linea para imprimirlo en la terminal
@@ -200,35 +276,35 @@ class ascii(Gtk.Window):
         image = Image.open(self.file)
 
         global imageAscii
+        global name
         imageAscii, name = imagetoAscii(image)
-        # print(imageAscii)
 
-        imageC = GdkPixbuf.Pixbuf.new_from_file_at_size(name,600,600)
+        imageC = GdkPixbuf.Pixbuf.new_from_file_at_size('imagenesAscii/' + name + '.png',600,600)
         imageGtk = Gtk.Image()
         imageGtk.set_from_pixbuf(imageC)
         self.boxAscii.pack_start(imageGtk, False, False, 0)
         self.boxSaveTXT.pack_start(self.saveTxt, False, False, 0)
+        if self.credenciales == True:
+            self.boxTweet.pack_start(self.tweetImg, False, False, 0)
         self.show_all()
 
 
     def saveTxt_clicked(self, widget):
-        with open('asciiArt.txt', 'w') as f:
+        with open('archivosAscii/' + name + '.txt', 'w') as f:
             f.write(imageAscii)
 
     def tweetImg_clicked(self, widget):
-        consumerKey = '179m3TFv4QaOZMBeggnegFzLE'
-        consumerSecret = 'Ubi29JSc55sO2q0HbyrOmT14uW8CU0V56Iu7mZJg95IlvEbDWE'
-        accessToken = '979050362970820608-bDXDGgD6xAxUbO1QBoFUdbinEGlBNrv'
-        accessSecret = '3uh2oUpw8g5fPAGzbHbc0yDzoVAARkiVwQRlZPHuUFfFU'
-
+        consumerKey = data[1][0]
+        consumerSecret = data[3][0]
+        accessToken = data[5][0]
+        accessSecret = data[7][0]
 
         auth = tweepy.OAuthHandler(consumerKey, consumerSecret)
         auth.set_access_token(accessToken, accessSecret)
-
         api = tweepy.API(auth, wait_on_rate_limit = True, wait_on_rate_limit_notify = True)
 
         tweet = '#ASCIIArtPM1'
-        api.update_with_media(file, status = tweet)
+        api.update_with_media('imagenesAscii/' + name + '.png', status = tweet)
 
     def helpAD_activate(self, widget):
         #acerca de dialogo
