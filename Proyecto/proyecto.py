@@ -81,6 +81,8 @@ class ascii(Gtk.Window):
         self.ASCII_CHARS = ''
         self.credenciales = False
         self.now = datetime.now()
+        self.background = (0,0,0)
+        self.colorfont = (255,255,255)
         # ···································································
         # BARRA DE MENU
         mainMenuB = Gtk.MenuBar()
@@ -151,11 +153,12 @@ class ascii(Gtk.Window):
         self.ASCII_CHARS = self.entryAscii.get_text()
 
     def radioSi_toggled(self, widget):
-        self.ASCII_CHARS = list(self.ASCII_CHARS)[::-1]
+        self.background = (0,0,0)
+        self.colorfont = (255,255,255)
 
     def radioNo_toggled(self, widget):
-        self.ASCII_CHARS = list(self.ASCII_CHARS)
-
+        self.background = (255,255,255)
+        self.colorfont = (0,0,0)
 
 
     def twSI_activate(self, widget):
@@ -246,13 +249,13 @@ class ascii(Gtk.Window):
 
             # Crea la imagen y el archivo .txt con el asciiArt
             fnt = ImageFont.load_default()
-            outputImage = Image.new('RGB', (10*newWidth, 12*newHeight), color = (0, 0, 0))
+            outputImage = Image.new('RGB', (10*newWidth, 12*newHeight), color = self.background)
             drawImage = ImageDraw.Draw(outputImage)
 
 
             for i in range(newHeight):
                 for j in range(newWidth):
-                    drawImage.text((10*j, 12*i), pixelsChars[j + i*newWidth], font = fnt, fill = (255, 255, 255))
+                    drawImage.text((10*j, 12*i), pixelsChars[j + i*newWidth], font = fnt, fill = self.colorfont)
             name = str(self.now.year) + str(self.now.month) + str(self.now.day) + str(self.now.hour) + str(self.now.minute) + str(self.now.second)
             outputImage.save('imagenesAscii/' + name + '.png')
 
